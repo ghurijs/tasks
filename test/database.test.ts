@@ -185,7 +185,7 @@ for (const using of backends) {
       )
       expect(io.out.join('\n')).toContain('Ran 2 task(s).')
       expect(await DBTaskResult.objects.filter({ status: 'SUCCESSFUL' }).count()).toBe(2)
-      expect(taskHandlers.crons()).toEqual([])
+      expect(taskHandlers.schedulesFor('* * * * *')).toEqual([])
     })
 
     it('prune_db_task_results deletes old finished results', async () => {

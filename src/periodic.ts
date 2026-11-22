@@ -39,6 +39,10 @@ export function periodicTask<A extends unknown[]>(
 ): () => void {
   const parse = (core as { parseCron?: (s: string) => unknown }).parseCron
   if (parse) parse(cron)
+  else if (typeof cron !== 'string' || cron.trim().split(/\s+/).length !== 5) {
+    // @ghuri/core before 0.1.0-alpha.5 has no parseCron: check the shape at least.
+    throw new core.ImproperlyConfigured(`Invalid cron expression '${cron}': expected 5 fields.`)
+  }
   const args = (opts.args ?? []) as unknown[]
   const problem = jsonProblem(args, 'args')
   if (problem) throw new InvalidTask(`periodicTask() arguments must be JSON: ${problem}.`)

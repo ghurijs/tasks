@@ -20,7 +20,7 @@ describe('periodic tasks', () => {
 
   it('enqueue the task when the Cron Trigger fires', async () => {
     offs.push(periodicTask('0 3 * * *', add, { args: [1, 2] }))
-    expect(taskHandlers.crons()).toEqual(['0 3 * * *'])
+    expect(taskHandlers.schedulesFor('0 3 * * *')).toHaveLength(1)
     expect(periodicTasks().map((p) => [p.cron, p.task.modulePath, p.args])).toEqual([
       ['0 3 * * *', 'demo.add', [1, 2]],
     ])
