@@ -1,0 +1,55 @@
+{
+  "name": "@ghuri/tasks",
+  "version": "0.1.0-alpha.0",
+  "description": "Ghuri tasks: Django 6.0 django.tasks-style background tasks on Cloudflare Queues, the database or in-process, with retries and periodic tasks",
+  "type": "module",
+  "license": "MIT",
+  "author": "Ghuri contributors",
+  "homepage": "https://github.com/ghurijs/tasks#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/ghurijs/tasks.git" },
+  "bugs": { "url": "https://github.com/ghurijs/tasks/issues" },
+  "keywords": ["ghuri", "django", "tasks", "background-jobs", "queue", "cron", "cloudflare", "workers", "queues", "d1"],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./testing": { "types": "./dist/testing.d.ts", "import": "./dist/testing.js" },
+    "./admin": { "types": "./dist/admin.d.ts", "import": "./dist/admin.js" }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist", "README.md", "LICENSE"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check src test",
+    "format": "biome format --write src test"
+  },
+  "peerDependencies": {
+    "@ghuri/admin": "^0.1.0-alpha.0",
+    "@ghuri/core": "^0.1.0-alpha.4",
+    "@ghuri/orm": "^0.1.0-alpha.5"
+  },
+  "peerDependenciesMeta": {
+    "@ghuri/admin": { "optional": true }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.6",
+    "@electric-sql/pglite": "^0.5.16",
+    "@ghuri/admin": "^0.1.0-alpha.0",
+    "@ghuri/auth": "^0.1.0-alpha.4",
+    "@ghuri/core": "^0.1.0-alpha.4",
+    "@ghuri/orm": "^0.1.0-alpha.5",
+    "@hono/node-server": "^2.1.0",
+    "@types/node": "^24.0.0",
+    "better-sqlite3": "^13.1.0",
+    "hono": "^4.13.0",
+    "miniflare": "^4.20260730.0",
+    "tsup": "^8.5.1",
+    "typescript": "~5.9.3",
+    "vitest": "^5.1.0"
+  },
+  "publishConfig": { "access": "public", "tag": "next" }
+}
