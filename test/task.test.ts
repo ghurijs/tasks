@@ -179,3 +179,13 @@ describe('immediate backend (the default)', () => {
     expect((await whichLocale.enqueue()).returnValue).toBeNull()
   })
 })
+
+describe('interop', () => {
+  it('publishes task() and getTask() on globalThis for packages that do not import @ghuri/tasks', async () => {
+    const { TASKS_INTEROP_KEY } = await import('../src/index')
+    const interop = (globalThis as any)[Symbol.for(TASKS_INTEROP_KEY)]
+    expect(interop.version).toBe(1)
+    expect(interop.task).toBe(task)
+    expect(interop.getTask('demo.add')).toBe(add)
+  })
+})
