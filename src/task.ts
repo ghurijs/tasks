@@ -314,3 +314,18 @@ if (!(globalThis as any)[HOOK_KEY]) {
     }
   })
 }
+
+/**
+ * How packages that do not depend on `@ghuri/tasks` (such as `@ghuri/agents`) define and find tasks when it is
+ * installed: `globalThis[Symbol.for('ghuri.tasks.interop')]`. Set when this module loads; the first copy wins.
+ */
+export interface TasksInterop {
+  version: 1
+  task: typeof task
+  getTask: typeof getTask
+}
+
+/** Key of the `TasksInterop` object on `globalThis`. */
+export const TASKS_INTEROP_KEY = 'ghuri.tasks.interop'
+
+globalSingleton<TasksInterop>(TASKS_INTEROP_KEY, () => ({ version: 1, task, getTask }))

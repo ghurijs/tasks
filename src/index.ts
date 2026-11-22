@@ -39,10 +39,12 @@ export {
   isTask,
   type RunAfter,
   registeredTasks,
+  TASKS_INTEROP_KEY,
   Task,
   TaskContext,
   type TaskOptions,
   type TaskOverrides,
+  type TasksInterop,
   task,
 } from './task'
 export { type DrainOptions, drainTasks, runWorker, type WorkerOptions } from './worker'

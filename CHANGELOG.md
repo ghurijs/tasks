@@ -13,3 +13,6 @@
 - Retries (`maxAttempts`, `retryDelay`), `periodicTask(cron, task)`, request context (tenant…) restored around
   every attempt, stale `RUNNING` tasks recovered.
 - `@ghuri/tasks/admin`, `@ghuri/tasks/testing` (`useTaskBackend`, `captureTasks`), system checks `tasks.*`.
+- `globalThis[Symbol.for('ghuri.tasks.interop')]` (`TasksInterop`: `{ version: 1, task, getTask }`, key
+  `TASKS_INTEROP_KEY`) lets packages that do not depend on `@ghuri/tasks` define and find tasks. `@ghuri/agents` uses
+  it for `agents.run`.
