@@ -14,5 +14,6 @@ registerContextCarrier({
 
 export class DemoConfig extends AppConfig {
   name = 'demo'
-  override tasks = demoTasks
+  // No `override`: AppConfig declares `tasks` only from @ghuri/core 0.1.0-alpha.5.
+  tasks = demoTasks
 }
