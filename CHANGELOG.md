@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-alpha.1
 
 - **Fix:** a Worker that imports `@ghuri/tasks` did not start on Cloudflare: the `immediate`, `dummy` and
   `cloudflareQueues` backends made their worker id with `crypto.getRandomValues()` while their modules loaded, and
