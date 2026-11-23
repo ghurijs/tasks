@@ -1,6 +1,6 @@
 {
   "name": "@ghuri/tasks",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Ghuri tasks: Django 6.0 django.tasks-style background tasks on Cloudflare Queues, the database or in-process, with retries and periodic tasks",
   "type": "module",
   "license": "MIT",
