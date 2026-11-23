@@ -44,3 +44,14 @@ export function newWorkerId(): string {
   for (const x of b) h += HEX[x]
   return h
 }
+
+let cachedWorkerId: string | undefined
+
+/**
+ * This isolate's (or process's) worker id, made on first use. Workers forbid random values at module scope
+ * ("Disallowed operation called within global scope"), so it must never run while a module loads.
+ */
+export function isolateWorkerId(): string {
+  if (cachedWorkerId === undefined) cachedWorkerId = newWorkerId()
+  return cachedWorkerId
+}
