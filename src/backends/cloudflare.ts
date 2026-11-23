@@ -11,7 +11,7 @@ import {
 } from '@ghuri/core'
 import { QUEUES_MAX_DELAY_SECONDS, QUEUES_MAX_MESSAGE_BYTES, TASK_MESSAGE_TYPE } from '../constants'
 import { InvalidTask, TaskResultDoesNotExist } from '../errors'
-import { newWorkerId } from '../ids'
+import { isolateWorkerId } from '../ids'
 import type { JsonValue } from '../json'
 import { DBTaskResult } from '../models'
 import { backendConfig, type TaskBackendConfig, taskBackends } from '../registry'
@@ -61,8 +61,6 @@ function isTaskMessage(body: unknown): body is TaskMessage {
 interface QueueProducer {
   send(body: unknown, options?: { delaySeconds?: number }): Promise<unknown>
 }
-
-const WORKER_ID = newWorkerId()
 
 /**
  * Sends tasks to Cloudflare Queues and runs them in the Worker's `queue()` handler. Supports `runAfter` up to 24
@@ -212,7 +210,7 @@ export class CloudflareQueuesBackend extends BaseTaskBackend {
             void (await DBTaskResult.objects.filter({ pk: r.id }).update(rowFields(r))),
         }
       : undefined
-    const outcome = await runAttempt(this, result, { workerId: WORKER_ID, store })
+    const outcome = await runAttempt(this, result, { workerId: isolateWorkerId(), store })
     if (outcome.outcome === 'retry') {
       msg.retry({ delaySeconds: Math.min(Math.ceil(outcome.delaySeconds), QUEUES_MAX_DELAY_SECONDS) })
     } else {

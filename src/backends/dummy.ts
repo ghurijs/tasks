@@ -1,10 +1,8 @@
-import { newWorkerId } from '../ids'
+import { isolateWorkerId } from '../ids'
 import { type TaskResult, TaskResultStatus } from '../result'
 import { runAttempt } from '../runner'
 import type { Task } from '../task'
 import { type BaseBackendOptions, BaseTaskBackend } from './base'
-
-const WORKER_ID = newWorkerId()
 
 /**
  * Stores enqueued tasks and never runs them (Django's `DummyBackend`), for tests: inspect `results`, `clear()`
@@ -42,7 +40,7 @@ export class DummyBackend extends BaseTaskBackend {
     for (let i = 0; i < this.results.length; i++) {
       const result = this.results[i]
       while (result.status === TaskResultStatus.READY) {
-        const { outcome } = await runAttempt(this, result, { workerId: WORKER_ID })
+        const { outcome } = await runAttempt(this, result, { workerId: isolateWorkerId() })
         if (outcome !== 'retry') finished++
       }
     }

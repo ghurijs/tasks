@@ -1,6 +1,17 @@
 # Changelog
 
-## Unreleased (0.1.0-alpha.0)
+## Unreleased
+
+- **Fix:** a Worker that imports `@ghuri/tasks` did not start on Cloudflare: the `immediate`, `dummy` and
+  `cloudflareQueues` backends made their worker id with `crypto.getRandomValues()` while their modules loaded, and
+  workerd forbids random values at global scope ("Disallowed operation called within global scope"). This broke
+  every Workers project with `TasksConfig` installed (`npm create ghuri` projects included). The id is now made on
+  first use, one per isolate.
+- tests: `test/workerd.test.ts` bundles a project with `@ghuri/tasks` and runs it in workerd (Miniflare) on D1, with
+  a real Cloudflare Queue producer and consumer: a task enqueued in a request runs in the app's `queue()` handler,
+  and `immediate()` runs inside a request.
+
+## 0.1.0-alpha.0
 
 - First release: Django 6.0 `django.tasks` for Ghuri. `task()`, `Task` (`using`, `enqueue`, `getResult`, `call`),
   `TaskResult`, `TaskResultStatus`, `TaskContext`, `taskBackends` / `defaultTaskBackend`, the `TASKS` setting and
